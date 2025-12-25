@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Job Interview Question Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="auth.js"></script>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="left-menu">
+            <a href="index.html">Home</a>
+        </div>
+        <div class="right-menu" id="authLinks">
+            <!-- Filled by auth.js -->
+        </div>
+    </div>
+    <div class="container">
+        <h2>Register</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required />
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" required />
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" required />
+            </div>
+            <button type="submit" class="auth-button">Register</button>
+        </form>
+    </div>
+    <script>
+        // Simple client‑side registration using localStorage
+        document.getElementById('registerForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirm = document.getElementById('confirmPassword').value;
+
+            if (password !== confirm) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            // Retrieve existing users or initialize array
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            if (users.find(u => u.email === email)) {
+                alert('User already exists');
+                return;
+            }
+            users.push({ email, password });
+            localStorage.setItem('users', JSON.stringify(users));
+            alert('Registration successful! Redirecting to login...');
+            location.href = 'login.html';
+        });
+    </script>
+</body>
+
+</html>

@@ -1,46 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Job Interview Portal</title>
+    <title>Home - Job Interview Question Generator</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .start-button {
-            display: inline-block;
-            background-color: #007bff;
-            color: white;
-            font-size: 18px;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .start-button:hover {
-            background-color: #0056b3;
-            transform: scale(1.1);
-        }
-    </style>
+    <script src="auth.js"></script>
 </head>
+
 <body>
     <div class="navbar">
         <div class="left-menu">
             <a href="index.html">Home</a>
-            <a href="job-interview.html">Job Interview</a>
-            <a href="about.html">About</a>
         </div>
-        <div class="right-menu">
-            <a href="login.html">Login</a>
-            <a href="signup.html">Signup</a>
+        <div class="right-menu" id="authLinks">
+            <!-- Filled by auth.js -->
         </div>
     </div>
-    <div class="container">
-        <h1>Welcome to the Job Interview Portal!</h1>
-        <p>Your ultimate destination for preparing job interviews with AI-generated questions and answers.</p>
-        <a href="job-interview.html" class="start-button">Start Preparing</a>
+    <div class="container hero">
+        <h1>Master Your Next Job Interview</h1>
+        <p>Get personalized interview questions and professional answers powered by AI.</p>
+        <button onclick="location.href='login.html'" class="auth-button"
+            style="padding: 18px 36px; font-size: 20px;">Start Preparing</button>
+        <div style="margin-top: 20px;">
+            <a href="register.html" style="color: #3498db; text-decoration: none; font-weight: 600;">Don't have an
+                account? Register here</a>
+        </div>
     </div>
 </body>
+
 </html>
