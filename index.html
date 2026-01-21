@@ -1,33 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Job Interview Question Generator</title>
+    <meta name="description" content="AI-powered Job Interview Question Generator to master your next interview.">
+    <title>PrepMaster | AI Interview Question Generator</title>
     <link rel="stylesheet" href="styles.css">
     <script src="auth.js"></script>
 </head>
-
 <body>
-    <div class="navbar">
-        <div class="left-menu">
-            <a href="index.html">Home</a>
-        </div>
-        <div class="right-menu" id="authLinks">
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary)">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            PrepMaster
+        </a>
+        <div id="navContent" class="nav-links">
             <!-- Filled by auth.js -->
         </div>
-    </div>
-    <div class="container hero">
-        <h1>Master Your Next Job Interview</h1>
-        <p>Get personalized interview questions and professional answers powered by AI.</p>
-        <button onclick="location.href='login.html'" class="auth-button"
-            style="padding: 18px 36px; font-size: 20px;">Start Preparing</button>
-        <div style="margin-top: 20px;">
-            <a href="register.html" style="color: #3498db; text-decoration: none; font-weight: 600;">Don't have an
-                account? Register here</a>
-        </div>
-    </div>
-</body>
+    </nav>
 
+    <header class="hero fade-in">
+        <h1>Ace Your Next Interview <br>with <span style="color: var(--primary)">AI Precision</span>.</h1>
+        <p>Generate personalized interview questions and professional model answers tailored to your industry and seniority level.</p>
+        <div class="cta-group">
+            <a href="job-interview.html" class="btn-primary">Start Practicing Now</a>
+            <a href="about.html" class="btn-secondary">How it Works</a>
+        </div>
+    </header>
+
+    <section class="container" style="padding-top: 0;">
+        <div class="content-grid">
+            <div class="card">
+                <h3>25+ Categories</h3>
+                <p>From Software Engineering to UX Design and Marketing, we cover all major tech and business roles.</p>
+            </div>
+            <div class="card">
+                <h3>Seniority Levels</h3>
+                <p>Tailored questions for Entry-level, Mid-level, Senior, and Executive roles to match your experience.</p>
+            </div>
+            <div class="card">
+                <h3>Instant Feedback</h3>
+                <p>Get professional model answers powered by Gemini AI to help you structure your responses perfectly.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 PrepMaster AI. All rights reserved.</p>
+    </footer>
+</body>
 </html>

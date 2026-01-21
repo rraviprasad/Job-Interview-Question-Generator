@@ -4,80 +4,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - Job Interview Portal</title>
+    <title>About Us | PrepMaster AI</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .about-section {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
-            text-align: left;
-            /* Ensures all text is left-aligned */
-        }
-
-        .about-section h2 {
-            color: #007bff;
-        }
-
-        .about-section ul {
-            text-align: left;
-            padding-left: 20px;
-        }
-
-        .about-section ul li {
-            margin-bottom: 10px;
-        }
-    </style>
+    <script src="auth.js"></script>
 </head>
 
 <body>
-    <div class="navbar">
-        <div class="left-menu">
-            <a href="index.html">Home</a>
-            <a href="job-interview.html">Job Interview</a>
-            <a href="about.html">About</a>
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            PrepMaster
+        </a>
+        <div id="navContent" class="nav-links"></div>
+    </nav>
+
+    <header class="page-header">
+        <h1>Empowering Careers with AI</h1>
+        <p>Learn more about our mission to help candidates land their dream jobs.</p>
+    </header>
+
+    <main class="container">
+        <div class="content-grid" style="grid-template-columns: 1fr;">
+            <div class="card fade-in">
+                <h3>Our Mission</h3>
+                <p>Preparation is the single most important factor in interview success. At PrepMaster AI, we bridge the
+                    gap between candidate potential and professional performance by providing high-quality, AI-generated
+                    practice materials that simulate real-world interviews.</p>
+            </div>
         </div>
-        <div class="right-menu">
-            <a href="login.html">Login</a>
-            <a href="signup.html">Signup</a>
+
+        <div class="content-grid" style="margin-top: 40px;">
+            <div class="card">
+                <h3>The Technology</h3>
+                <p>We leverage the power of Google's Gemini 1.5 Flash model to analyze your role and seniority,
+                    generating questions that challenging, relevant, and insightful.</p>
+            </div>
+            <div class="card">
+                <h3>Community Driven</h3>
+                <p>Built by developers and career coaches who understand the evolving landscape of the tech and business
+                    world.</p>
+            </div>
         </div>
-    </div>
+    </main>
 
-    <div class="container">
-        <h1>About Us</h1>
-        <div class="about-section">
-            <h2>Our Mission</h2>
-            <p>At <strong>Job Interview Portal</strong>, we are dedicated to helping job seekers prepare for interviews
-                with confidence. Our AI-powered platform generates tailored interview questions, provides model answers,
-                and offers valuable insights to ensure you succeed in your job search.</p>
-
-            <h2>Why Choose Us?</h2>
-            <p>We provide an interactive and personalized experience to help you excel in your interviews. Our platform
-                offers:</p>
-            <ul>
-                <li><strong>AI-Generated Questions:</strong> Get realistic interview questions based on your industry
-                    and job role.</li>
-                <li><strong>Instant Answers & Feedback:</strong> Learn how to structure responses effectively.</li>
-                <li><strong>Mock Interviews:</strong> Practice with AI-driven simulations.</li>
-                <li><strong>Expert Tips & Resources:</strong> Access curated guides and strategies from industry
-                    professionals.</li>
-            </ul>
-
-            <h2>Our Vision</h2>
-            <p>We believe that preparation is the key to success. Our goal is to revolutionize the way candidates
-                prepare for job interviews by using cutting-edge AI technology, ensuring that everyone has access to
-                high-quality interview practice.</p>
-
-            <h2>Meet Our Team</h2>
-            <p>Our platform is built by a passionate team of career coaches, AI specialists, and HR professionals
-                committed to making job interviews stress-free and effective for everyone.</p>
-
-            <h2>Get in Touch</h2>
-            <p>If you have any questions or suggestions, feel free to reach out to us at <a
-                    href="mailto:support@jobinterviewportal.com">support@jobinterviewportal.com</a>.</p>
-        </div>
-    </div>
+    <footer>
+        <p>&copy; 2024 PrepMaster AI. All rights reserved.</p>
+    </footer>
 </body>
 
 </html>

@@ -1,47 +1,70 @@
 // auth.js - client-side authentication helper
 
 function isLoggedIn() {
-  return !!localStorage.getItem('currentUser');
+    return !!localStorage.getItem('currentUser');
+}
+
+function getCurrentUser() {
+    const user = localStorage.getItem('currentUser');
+    return user ? JSON.parse(user) : null;
 }
 
 function logout() {
-  localStorage.removeItem('currentUser');
-  // Redirect to home after logout
-  location.href = 'index.html';
+    localStorage.removeItem('currentUser');
+    // Redirect to home after logout
+    window.location.href = 'index.html';
 }
 
 function requireAuth() {
-  if (!isLoggedIn()) {
-    // If not logged in, redirect to login page
-    location.href = 'login.html';
-  }
+    if (!isLoggedIn()) {
+        // If not logged in, redirect to login page
+        window.location.href = 'login.html';
+    }
+}
+
+function checkAutoRedirect() {
+    // If user is on login/register and logged in, send them to home or dashboard
+    const path = window.location.pathname;
+    if (isLoggedIn() && (path.includes('login.html') || path.includes('register.html'))) {
+        window.location.href = 'index.html';
+    }
 }
 
 function updateNav() {
-  const rightMenu = document.getElementById('authLinks');
-  if (!rightMenu) return;
-  rightMenu.innerHTML = '';
-  if (isLoggedIn()) {
-    const logoutLink = document.createElement('a');
-    logoutLink.href = '#';
-    logoutLink.textContent = 'Logout';
-    logoutLink.onclick = function (e) {
-      e.preventDefault();
-      logout();
-    };
-    rightMenu.appendChild(logoutLink);
-  } else {
-    const loginLink = document.createElement('a');
-    loginLink.href = 'login.html';
-    loginLink.textContent = 'Login';
-    const registerLink = document.createElement('a');
-    registerLink.href = 'register.html';
-    registerLink.textContent = 'Register';
-    rightMenu.appendChild(loginLink);
-    rightMenu.appendChild(document.createTextNode(' '));
-    rightMenu.appendChild(registerLink);
-  }
+    const navContent = document.getElementById('navContent');
+    if (!navContent) return;
+
+    const loggedIn = isLoggedIn();
+    const user = getCurrentUser();
+
+    let html = `
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="job-interview.html">Interview Prep</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div class="nav-auth">
+    `;
+
+    if (loggedIn) {
+        html += `
+            <span style="margin-right: 15px; font-weight: 500; color: var(--text-muted)">Hi, ${user.email.split('@')[0]}</span>
+            <a href="#" onclick="logout(); return false;" class="btn-logout">Logout</a>
+        `;
+    } else {
+        html += `
+            <a href="login.html" class="btn-nav-login">Login</a>
+            <a href="register.html" class="btn-nav-signup">Sign Up</a>
+        `;
+    }
+
+    html += `</div>`;
+    navContent.innerHTML = html;
 }
 
-// Initialize navigation on page load
-document.addEventListener('DOMContentLoaded', updateNav);
+// Global initialization
+document.addEventListener('DOMContentLoaded', () => {
+    updateNav();
+    checkAutoRedirect();
+});

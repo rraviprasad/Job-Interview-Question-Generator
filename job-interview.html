@@ -4,248 +4,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Interview Question Generator</title>
+    <title>Interview Prep | PrepMaster AI</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2ecc71;
-            --background-color: #f4f4f4;
-            --text-color: #333;
+        .prep-controls {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 20px;
+            align-items: end;
         }
 
-
-
-        h2 {
-            text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 30px;
-            font-weight: 300;
+        @media (max-width: 768px) {
+            .prep-controls {
+                grid-template-columns: 1fr;
+            }
         }
 
-        .controls {
+        .display-area {
             display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            align-items: center;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            flex-direction: column;
+            gap: 30px;
         }
 
-        label {
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-right: 10px;
+        .question-card,
+        .answer-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
+            border-left: 5px solid var(--primary);
+            min-height: 100px;
         }
 
-        select,
-        button {
-            padding: 12px 15px;
-            font-size: 16px;
-            border: 2px solid var(--primary-color);
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            outline: none;
+        .answer-card {
+            border-left-color: var(--secondary);
+            display: none;
         }
 
-        select {
-            appearance: none;
-            background: white url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") no-repeat right 10px center;
-            background-size: 30px;
-            cursor: pointer;
-        }
-
-        select:hover,
-        button:hover {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        button {
-            background-color: var(--primary-color);
-            color: white;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        button:hover {
-            background-color: #2980b9;
-        }
-
-        button:disabled {
-            background-color: #bdc3c7;
-            cursor: not-allowed;
-        }
-
-        #questionDisplay,
-        #answerDisplay {
-            font-size: 18px;
-            margin-bottom: 20px;
-            padding: 20px;
-            border: 2px solid var(--primary-color);
-            border-radius: 8px;
-            background-color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            min-height: 50px;
-            line-height: 1.6;
-        }
-
-        .loading {
+        .status-badge {
             display: inline-block;
-            width: 25px;
-            height: 25px;
-            border: 3px solid rgba(52, 152, 219, 0.3);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
             border-radius: 50%;
-            border-top-color: var(--primary-color);
-            animation: spin 1s ease-in-out infinite;
-            margin-left: 10px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
         }
 
         @keyframes spin {
-            to {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
                 transform: rotate(360deg);
             }
         }
 
-        #generateAnswerBtn {
-            display: none;
-            background-color: var(--secondary-color);
+        /* Color Coding for Seniority */
+        .level-Beginner {
+            border-left-color: #3498db;
         }
 
-        #generateAnswerBtn:hover {
-            background-color: #27ae60;
+        .level-Intermediate {
+            border-left-color: #2ecc71;
         }
 
-        @media (max-width: 600px) {
-            .controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            select,
-            button {
-                width: 100%;
-                margin-bottom: 10px;
-            }
+        .level-Advanced {
+            border-left-color: #f1c40f;
         }
 
-        /* Professional Level Color Palette */
-        :root {
-            --entry-level-primary: #3498db;
-            /* Bright, optimistic blue */
-            --entry-level-secondary: #f1c40f;
-            /* Energetic yellow */
-
-            --mid-level-primary: #2ecc71;
-            /* Confident green */
-            --mid-level-secondary: #e67e22;
-            /* Mature orange */
-
-            --senior-level-primary: #34495e;
-            /* Deep, authoritative navy */
-            --senior-level-secondary: #8e44ad;
-            /* Sophisticated purple */
-
-            --executive-level-primary: #2c3e50;
-            /* Powerful charcoal */
-            --executive-level-secondary: #d35400;
-            /* Rich, decisive orange */
-        }
-
-        /* Base Answer Container Styles */
-        .answer-container {
-            transition: all 0.3s ease;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Level-Specific Styling */
-        .answer-container.entry-level {
-            background: linear-gradient(135deg,
-                    var(--entry-level-primary) 0%,
-                    var(--entry-level-secondary) 100%);
-            color: white;
-        }
-
-        .answer-container.mid-level {
-            background: linear-gradient(135deg,
-                    var(--mid-level-primary) 0%,
-                    var(--mid-level-secondary) 100%);
-            color: white;
-        }
-
-        .answer-container.senior-level {
-            background: linear-gradient(135deg,
-                    var(--senior-level-primary) 0%,
-                    var(--senior-level-secondary) 100%);
-            color: white;
-        }
-
-        .answer-container.executive-level {
-            background: linear-gradient(135deg,
-                    var(--executive-level-primary) 0%,
-                    var(--executive-level-secondary) 100%);
-            color: white;
-        }
-
-        /* Heading Styles */
-        .answer-container h3 {
-            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Key Points Styling */
-        .answer-container .key-points {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .answer-container .key-points li {
-            background: rgba(255, 255, 255, 0.1);
-            border-left: 4px solid rgba(255, 255, 255, 0.7);
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 0 4px 4px 0;
-            position: relative;
-        }
-
-        .answer-container .key-points .point-title {
-            display: block;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 600px) {
-            .answer-container {
-                padding: 15px;
-            }
-
-            .answer-container .key-points li {
-                padding: 10px;
-            }
-        }
-
-        /* Level Indicator */
-        .answer-container::before {
-            content: attr(data-level);
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-weight: bold;
-            opacity: 0.7;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .level-Professional {
+            border-left-color: #e67e22;
         }
     </style>
     <script src="auth.js"></script>
@@ -253,185 +101,153 @@
 </head>
 
 <body>
-    <div class="navbar">
-        <div class="left-menu">
-            <a href="index.html">Home</a>
-        </div>
-        <div class="right-menu" id="authLinks"></div>
-    </div>
-    <div class="container">
-        <h1>Job Interview Question Generator</h1>
-        <p>Get expert advice on how to succeed in your job interviews.</p>
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            PrepMaster
+        </a>
+        <div id="navContent" class="nav-links"></div>
+    </nav>
 
+    <main class="container">
+        <header class="page-header" style="margin-top: 80px;">
+            <h1>Interview Dashboard</h1>
+            <p>Select your target role and level to generate practice questions.</p>
+        </header>
 
-        <div class="controls">
-            <label for="category">Choose a Category:</label>
-            <select id="category">
-                <option value="Software Engineer">Software Engineer</option>
-                <option value="Data Scientist">Data Scientist</option>
-                <option value="Product Manager">Product Manager</option>
-                <option value="Marketing Specialist">Marketing Specialist</option>
-                <option value="Frontend Developer">Frontend Developer</option>
-                <option value="Backend Developer">Backend Developer</option>
-                <option value="Full Stack Developer">Full Stack Developer</option>
-                <option value="DevOps Engineer">DevOps Engineer</option>
-                <option value="Cloud Engineer">Cloud Engineer</option>
-                <option value="Machine Learning Engineer">Machine Learning Engineer</option>
-                <option value="Data Analyst">Data Analyst</option>
-                <option value="Business Analyst">Business Analyst</option>
-                <option value="UX Designer">UX Designer</option>
-                <option value="UI Designer">UI Designer</option>
-                <option value="Cybersecurity Analyst">Cybersecurity Analyst</option>
-                <option value="Network Engineer">Network Engineer</option>
-                <option value="Quality Assurance Engineer">Quality Assurance Engineer</option>
-                <option value="Technical Writer">Technical Writer</option>
-                <option value="Sales Engineer">Sales Engineer</option>
-                <option value="Customer Success Manager">Customer Success Manager</option>
-                <option value="Project Manager">Project Manager</option>
-                <option value="Scrum Master">Scrum Master</option>
-                <option value="Database Administrator">Database Administrator</option>
-                <option value="Systems Administrator">Systems Administrator</option>
-                <option value="AI/ML Researcher">AI/ML Researcher</option>
-            </select>
-            <label for="level">Choose Level:</label>
-            <select id="level">
-                <option value="Beginner">Beginner</option>
-                <option value="Intermediate">Intermediate</option>
-                <option value="Advanced">Advanced</option>
-                <option value="Advanced">Professional</option>
-            </select>
-            <button id="generateBtn" onclick="generateQuestion()">Generate Question</button>
-            <button id="generateAnswerBtn" onclick="generateAnswer()">Generate Answer</button>
-            <div id="loading" class="loading" style="display:none;"></div>
-        </div>
+        <section class="prep-controls fade-in">
+            <div class="form-group">
+                <label for="category">Job Category</label>
+                <select id="category">
+                    <option value="Software Engineer">Software Engineer</option>
+                    <option value="Data Scientist">Data Scientist</option>
+                    <option value="Product Manager">Product Manager</option>
+                    <option value="Marketing Specialist">Marketing Specialist</option>
+                    <option value="Frontend Developer">Frontend Developer</option>
+                    <option value="Backend Developer">Backend Developer</option>
+                    <option value="Full Stack Developer">Full Stack Developer</option>
+                    <option value="DevOps Engineer">DevOps Engineer</option>
+                    <option value="UI/UX Designer">UI/UX Designer</option>
+                    <option value="Project Manager">Project Manager</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="level">Experience Level</label>
+                <select id="level">
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                    <option value="Professional">Professional</option>
+                </select>
+            </div>
+            <button id="generateBtn" class="btn-primary" style="margin-bottom: 20px;"
+                onclick="generateQuestion()">Generate Question</button>
+        </section>
 
-        <div id="questionDisplay"></div>
-        <div id="answerDisplay"></div>
+        <div id="loading" class="loading-spinner"></div>
 
-        <script>
-            let currentQuestion = '';
-            let currentCategory = '';
-            let currentLevel = '';
+        <section class="display-area">
+            <div id="qContainer" class="question-card fade-in" style="display: none;">
+                <span class="status-badge" id="qBadge">Question</span>
+                <h3 id="questionText">The question will appear here...</h3>
+                <button id="ansBtn" class="btn-secondary" style="margin-top: 20px; padding: 10px 20px; font-size: 14px;"
+                    onclick="generateAnswer()">Get Model Answer</button>
+            </div>
 
-            async function generateQuestion() {
-                const generateBtn = document.getElementById('generateBtn');
-                const generateAnswerBtn = document.getElementById('generateAnswerBtn');
-                const loadingSpinner = document.getElementById('loading');
-                const questionDisplay = document.getElementById('questionDisplay');
-                const answerDisplay = document.getElementById('answerDisplay');
+            <div id="aContainer" class="answer-card fade-in">
+                <span class="status-badge" style="background: rgba(16, 185, 129, 0.1); color: var(--secondary)">Model
+                    Answer</span>
+                <div id="answerText"></div>
+            </div>
+        </section>
+    </main>
 
-                // Disable button and show loading spinner
-                generateBtn.disabled = true;
-                loadingSpinner.style.display = 'inline-block';
-                questionDisplay.innerHTML = '';
-                answerDisplay.innerHTML = '';
-                generateAnswerBtn.style.display = 'none';
+    <script>
+        let currentQuestion = '';
+        let currentCategory = '';
+        let currentLevel = '';
 
-                currentCategory = document.getElementById('category').value;
-                currentLevel = document.getElementById('level').value;
-                const prompt = `Generate a single, specific interview question for a ${currentCategory} position at ${currentLevel} level. Ensure the question is clear, relevant, and helps assess the candidate's skills and experience.`;
+        async function generateQuestion() {
+            const btn = document.getElementById('generateBtn');
+            const loading = document.getElementById('loading');
+            const qContainer = document.getElementById('qContainer');
+            const aContainer = document.getElementById('aContainer');
 
-                try {
-                    const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=AIzaSyCr3JimZFd2_NG7kOSmGxTLH31EzqNyn9M`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{
-                                role: 'user',
-                                parts: [{ text: prompt }]
-                            }],
-                            generationConfig: {
-                                temperature: 0.7,
-                                maxOutputTokens: 256
-                            }
-                        })
-                    });
+            currentCategory = document.getElementById('category').value;
+            currentLevel = document.getElementById('level').value;
 
-                    if (!response.ok) {
-                        const errorBody = await response.text();
-                        throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
-                    }
+            btn.disabled = true;
+            loading.style.display = 'block';
+            qContainer.style.display = 'none';
+            aContainer.style.display = 'none';
 
-                    const data = await response.json();
-                    console.log('Full API response:', data);
+            const prompt = `Generate a single, specific interview question for a ${currentCategory} position at ${currentLevel} level. Ensure the question is clear, relevant, and helps assess the candidate's skills and experience.`;
 
-                    // Add more robust error checking
-                    if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts) {
-                        throw new Error('Unexpected API response structure');
-                    }
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=AIzaSyCr3JimZFd2_NG7kOSmGxTLH31EzqNyn9M`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }],
+                        generationConfig: { temperature: 0.7, maxOutputTokens: 256 }
+                    })
+                });
 
-                    // Extract and display the question
-                    currentQuestion = data.candidates[0].content.parts[0].text.trim();
-                    questionDisplay.innerHTML = `<strong>Interview Question:</strong> ${currentQuestion}`;
+                const data = await response.json();
+                currentQuestion = data.candidates[0].content.parts[0].text.trim();
 
-                    // Show generate answer button
-                    generateAnswerBtn.style.display = 'inline-block';
-                } catch (error) {
-                    console.error('Error generating question:', error);
-                    questionDisplay.innerHTML = `Error: ${error.message}. Please try again.`;
-                } finally {
-                    // Re-enable button and hide loading spinner
-                    generateBtn.disabled = false;
-                    loadingSpinner.style.display = 'none';
-                }
+                document.getElementById('questionText').textContent = currentQuestion;
+                qContainer.className = `question-card fade-in level-${currentLevel}`;
+                qContainer.style.display = 'block';
+            } catch (error) {
+                console.error(error);
+                alert("Failed to generate question. Please check your internet connection.");
+            } finally {
+                btn.disabled = false;
+                loading.style.display = 'none';
             }
+        }
 
-            async function generateAnswer() {
-                const generateAnswerBtn = document.getElementById('generateAnswerBtn');
-                const loadingSpinner = document.getElementById('loading');
-                const answerDisplay = document.getElementById('answerDisplay');
+        async function generateAnswer() {
+            const btn = document.getElementById('ansBtn');
+            const loading = document.getElementById('loading');
+            const aContainer = document.getElementById('aContainer');
+            const answerText = document.getElementById('answerText');
 
-                // Disable button and show loading spinner
-                generateAnswerBtn.disabled = true;
-                loadingSpinner.style.display = 'inline-block';
-                answerDisplay.innerHTML = '';
+            btn.disabled = true;
+            loading.style.display = 'block';
+            aContainer.style.display = 'none';
 
-                const prompt = `Provide a comprehensive and professional answer to the following interview question for a ${currentCategory} position at ${currentLevel} level: "${currentQuestion}". Structure the answer to showcase relevant skills, experience, and insights.`;
+            const prompt = `Provide a comprehensive and professional answer to this interview question for a ${currentCategory} (${currentLevel} level): "${currentQuestion}". Use bullet points for key takeaways and keep it professional.`;
 
-                try {
-                    const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=AIzaSyCr3JimZFd2_NG7kOSmGxTLH31EzqNyn9M`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{
-                                role: 'user',
-                                parts: [{ text: prompt }]
-                            }],
-                            generationConfig: {
-                                temperature: 0.7,
-                                maxOutputTokens: 512
-                            }
-                        })
-                    });
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=AIzaSyCr3JimZFd2_NG7kOSmGxTLH31EzqNyn9M`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }],
+                        generationConfig: { temperature: 0.7, maxOutputTokens: 512 }
+                    })
+                });
 
-                    if (!response.ok) {
-                        const errorBody = await response.text();
-                        throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
-                    }
+                const data = await response.json();
+                const answer = data.candidates[0].content.parts[0].text.trim();
 
-                    const data = await response.json();
-                    console.log('Full API response:', data);
-
-                    // Add more robust error checking
-                    if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts) {
-                        throw new Error('Unexpected API response structure');
-                    }
-
-                    // Extract and display the answer
-                    const answer = data.candidates[0].content.parts[0].text.trim();
-                    answerDisplay.innerHTML = `<div class="answer-container ${currentLevel.toLowerCase().replace(' ', '-')}"><h3>Sample Answer</h3><p>${answer}</p></div>`;
-                } catch (error) {
-                    console.error('Error generating answer:', error);
-                    answerDisplay.innerHTML = `Error: ${error.message}. Please try again.`;
-                } finally {
-                    // Re-enable button and hide loading spinner
-                    generateAnswerBtn.disabled = false;
-                    loadingSpinner.style.display = 'none';
-                }
+                // Simple markdown-to-html for bullet points
+                answerText.innerHTML = answer.replace(/\n/g, '<br>').replace(/\* /g, '• ');
+                aContainer.style.display = 'block';
+            } catch (error) {
+                console.error(error);
+                alert("Failed to generate answer.");
+            } finally {
+                btn.disabled = false;
+                loading.style.display = 'none';
             }
-        </script>
-</body>
-</div>
+        }
+    </script>
 </body>
 
 </html>

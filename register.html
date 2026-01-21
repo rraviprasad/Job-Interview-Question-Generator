@@ -4,40 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Job Interview Question Generator</title>
+    <title>Create Account | PrepMaster AI</title>
     <link rel="stylesheet" href="styles.css">
     <script src="auth.js"></script>
 </head>
 
 <body>
-    <div class="navbar">
-        <div class="left-menu">
-            <a href="index.html">Home</a>
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            PrepMaster
+        </a>
+        <div id="navContent" class="nav-links"></div>
+    </nav>
+
+    <main class="auth-container">
+        <div class="auth-card fade-in">
+            <h2>Get Started</h2>
+            <p>Create your account to start generating interview questions.</p>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="name@company.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Min. 8 characters" required minlength="8">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Repeat your password" required>
+                </div>
+                <button type="submit" class="auth-submit">Create Account</button>
+            </form>
+            <div class="auth-footer">
+                Already have an account? <a href="login.html">Sign in</a>
+            </div>
         </div>
-        <div class="right-menu" id="authLinks">
-            <!-- Filled by auth.js -->
-        </div>
-    </div>
-    <div class="container">
-        <h2>Register</h2>
-        <form id="registerForm">
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" required />
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" required />
-            </div>
-            <div class="form-group">
-                <label for="confirmPassword">Confirm Password:</label>
-                <input type="password" id="confirmPassword" required />
-            </div>
-            <button type="submit" class="auth-button">Register</button>
-        </form>
-    </div>
+    </main>
+
     <script>
-        // Simple client‑side registration using localStorage
         document.getElementById('registerForm').addEventListener('submit', function (e) {
             e.preventDefault();
             const email = document.getElementById('email').value.trim();
@@ -49,16 +58,16 @@
                 return;
             }
 
-            // Retrieve existing users or initialize array
             const users = JSON.parse(localStorage.getItem('users') || '[]');
             if (users.find(u => u.email === email)) {
-                alert('User already exists');
+                alert('User with this email already exists');
                 return;
             }
+
             users.push({ email, password });
             localStorage.setItem('users', JSON.stringify(users));
-            alert('Registration successful! Redirecting to login...');
-            location.href = 'login.html';
+            alert('Success! Please login with your new account.');
+            window.location.href = 'login.html';
         });
     </script>
 </body>
