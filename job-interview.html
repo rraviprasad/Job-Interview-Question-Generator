@@ -6,7 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interview Prep | PrepMaster AI</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="app-settings.js"></script>
+    <script>
+        // Configuration - API keys are visible in client-side apps
+        // Make sure to restrict your API keys by domain in Groq console
+        const CONFIG = {
+            GROQ_API_KEY: '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',
+            QUESTION_TEMPERATURE: 0.7,
+            QUESTION_MAX_TOKENS: 256,
+            ANSWER_TEMPERATURE: 0.7,
+            ANSWER_MAX_TOKENS: 512
+        };
+    </script>
     <style>
         .prep-controls {
             background: white;
