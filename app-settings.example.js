@@ -4,10 +4,11 @@
 const CONFIG = {
     // Replace 'YOUR_GEMINI_API_KEY_HERE' with your actual Gemini API key
     // Get your key from: https://makersuite.google.com/app/apikey
-    GEMINI_API_KEY: 'AIzaSyDMj8u72nlaQW8nlqnSas_uJkpsQF3qZb0',
+    GEMINI_API_KEY: 'YOUR_GEMINI_API_KEY_HERE',
+    GROQ_API_KEY: 'YOUR_GROQ_API_KEY_HERE',
 
     // API Configuration
-    API_ENDPOINT: 'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent',
+    API_ENDPOINT: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent',
 
     // Generation settings
     QUESTION_TEMPERATURE: 0.7,
