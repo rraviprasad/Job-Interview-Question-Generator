@@ -6,7 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interview Prep | PrepMaster AI</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="config.js"></script>
+    <script>
+        // Configuration embedded directly to avoid loading issues
+        const CONFIG = {
+            GEMINI_API_KEY: 'AIzaSyDMj8u72nlaQW8nlqnSas_uJkpsQF3qZb0',
+            API_ENDPOINT: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent',
+            QUESTION_TEMPERATURE: 0.7,
+            QUESTION_MAX_TOKENS: 256,
+            ANSWER_TEMPERATURE: 0.7,
+            ANSWER_MAX_TOKENS: 512
+        };
+    </script>
     <style>
         .prep-controls {
             background: white;
@@ -146,6 +156,8 @@
             </div>
             <button id="generateBtn" class="btn-primary" style="margin-bottom: 20px;"
                 onclick="generateQuestion()">Generate Question</button>
+            <button onclick="listAvailableModels()" class="btn-secondary"
+                style="margin-bottom: 20px; font-size: 10px; opacity: 0.5;">Debug: List Models</button>
         </section>
 
         <div id="loading" class="loading-spinner"></div>
@@ -201,14 +213,33 @@
                 });
 
                 const data = await response.json();
-                currentQuestion = data.candidates[0].content.parts[0].text.trim();
+
+                if (data.error) {
+                    throw new Error(data.error.message || "API Error");
+                }
+
+                if (!data.candidates || data.candidates.length === 0) {
+                    throw new Error("No response from AI. Try a different category.");
+                }
+
+                const candidate = data.candidates[0];
+                if (candidate.finishReason === "SAFETY") {
+                    throw new Error("The AI blocked this request for safety reasons. Try a simpler prompt.");
+                }
+
+                if (!candidate.content || !candidate.content.parts || !candidate.content.parts[0]) {
+                    console.log("Full Response:", data);
+                    throw new Error("AI returned an empty response. Detailed logs in console.");
+                }
+
+                currentQuestion = candidate.content.parts[0].text.trim();
 
                 document.getElementById('questionText').textContent = currentQuestion;
                 qContainer.className = `question-card fade-in level-${currentLevel}`;
                 qContainer.style.display = 'block';
             } catch (error) {
-                console.error(error);
-                alert("Failed to generate question. Please check your internet connection.");
+                console.error("Detailed Error:", error);
+                alert("API Error: " + error.message);
             } finally {
                 btn.disabled = false;
                 loading.style.display = 'none';
@@ -241,7 +272,14 @@
                 });
 
                 const data = await response.json();
-                const answer = data.candidates[0].content.parts[0].text.trim();
+
+                if (data.error) throw new Error(data.error.message);
+                if (!data.candidates || !data.candidates[0]) throw new Error("No answer generated.");
+
+                const candidate = data.candidates[0];
+                if (candidate.finishReason === "SAFETY") throw new Error("Answer blocked for safety.");
+
+                const answer = candidate.content?.parts?.[0]?.text?.trim() || "No answer text provided.";
 
                 // Simple markdown-to-html for bullet points
                 answerText.innerHTML = answer.replace(/\n/g, '<br>').replace(/\* /g, '• ');
